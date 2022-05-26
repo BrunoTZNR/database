@@ -1,8 +1,3 @@
-use cadastro;
-select * from cursos;
-select * from gafanhotos;
-show character set;
-
 /* exercicios 01 */
 
 select nome from gafanhotos where sexo='F';
@@ -57,3 +52,40 @@ pela nacionalidade mostrando apenas a qtd maior ou igual a 3 ordenando-os pelo a
 select altura from gafanhotos where peso >= '100' group by altura having altura > (select avg(altura) from gafanhotos) order by altura desc;
 /* selecione o atributo altura da entidade gafanhotos onde peso é maior ou igual a 100 agrupando-os pela altura tendo altura maior que a media do
 atributo altura da entidade gafanhotos e ordenando-os pelo atributo altura na ordem decrescente */
+
+alter table gafanhotos add cursopreferido int;
+alter table gafanhotos add foreign key (cursopreferido) references cursos(idcurso);
+
+update gafanhotos set cursopreferido = '6' where id='1';
+/* inner join */
+select gafanhotos.nome, cursos.nome, cursos.ano from gafanhotos join cursos on cursos.idcurso = gafanhotos.cursopreferido order by cursos.ano desc, gafanhotos.nome asc;
+select g.nome, c.nome, c.ano from gafanhotos as g join cursos as c on c.idcurso = g.cursopreferido order by c.ano desc, g.nome asc;
+/* outer join (left/right) */
+select g.nome, c.nome, c.ano from gafanhotos as g left join cursos as c on c.idcurso = g.cursopreferido order by c.ano desc, g.nome asc;
+select g.nome, c.nome, c.ano from gafanhotos as g right join cursos as c on g.cursopreferido = c.idcurso  order by c.ano, g.nome;
+select g.nome, g.nacionalidade, g.profissao, c.nome, c.carga from gafanhotos as g join cursos as c on g.cursopreferido = c.idcurso order by g.nacionalidade desc, g.nome, c.carga;
+select g.nome, g.nacionalidade, g.profissao, c.nome, c.carga from gafanhotos as g left join cursos as c on g.cursopreferido = c.idcurso order by g.nacionalidade desc, g.nome, c.carga;
+
+use cadastro;
+select * from cursos;
+desc cursos;
+select * from gafanhotos;
+desc gafanhotos;
+select * from g_assiste_c order by idgafanhoto, data, idcurso;
+desc g_assiste_c;
+
+create table g_assiste_c(
+	id int auto_increment primary key,
+    data date,
+    idgafanhoto int,
+    idcurso int,
+    foreign key (idgafanhoto) references gafanhotos(id),
+    foreign key (idcurso) references cursos(idcurso)
+)engine=InnoDB, default charset=utf8mb4;
+
+insert into g_assiste_c values (default, '2014-03-01','1','2');
+
+select g.nome, c.nome from gafanhotos g join g_assiste_c gc on gc.idgafanhoto = g.id join cursos c on gc.idcurso = c.idcurso;
+select g.nome, c.nome, gc.data from gafanhotos as g join g_assiste_c as gc on gc.idgafanhoto = g.id join cursos as c on gc.idcurso = c.idcurso;
+
+select g.nome, g.profissao, c.nome, gc.data from gafanhotos g left join g_assiste_c gc on gc.idgafanhoto = g.id left join cursos c on gc.idcurso = c.idcurso;

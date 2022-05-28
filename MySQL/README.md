@@ -84,5 +84,51 @@ SELECT * FROM `tableName` WHERE `atribute` LIKE '%char%';
 ```
 
 ```sql
+SELECT DISTINCT `atribute` FROM `tableName`;
+```
+
+```sql
+SELECT count(`atribute` or *) FROM `tableName`;
+
+SELECT max(`atribute`) FROM `tableName`;
+
+SELECT min(`atribute`) FROM `tableName`;
+
+SELECT avg(`atribute`) FROM `tableName`;
+```
+
+```sql
+SELECT * FROM `tableName` GROUP BY `atribute`;
+
+SELECT count(`atribute` or *) FROM `tableName` GROUP BY `atribute`;
+```
+
+```sql
+SELECT `atribute`, `atribute` FROM `tableName1` INNER JOIN `tableName2` ON `tableName1`.primaryKey = `tableName2`.foreignKey;
+
+SELECT `atribute`, `atribute` FROM `tableName1` AS tb1 INNER JOIN `tableName2` AS tb2 ON tb1.PK = tb2.FK;
+```
+
+```sql
+
+```
+
+```sql
+
+```
+
+```sql
+
+```
+
+```sql
+
+```
+
+```sql
+
+```
+
+```sql
 
 ```
